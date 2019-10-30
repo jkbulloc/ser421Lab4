@@ -1,15 +1,32 @@
 "use strict";
 const review = "Joker review: Joker isn’t just an awesome comic book movie, it’s an awesome movie, period. " +
 "It offers no easy answers to the unsettling questions it raises about a cruel society in decline. " + 
-"Joaquin Phoenix’s fully committed performance and Todd Phillips’ masterful albeit loose reinvention of the DC source material make Joker a film that should leave comic book fans and non-fans alike disturbed and moved in all the right ways." +
-" - IGN.com"
+"Joaquin Phoenix’s fully committed performance and Todd Phillips’ masterful albeit loose reinvention of the DC source "+ 
+"material make Joker a film that should leave comic book fans and non-fans alike disturbed and moved in all the right ways." +
+" - IGN.com";
+
+var name;
+let greeting = "Hello, " + name + " Welcome to the movie review forum! Please enter a coment about the movie!";
+
+function loadHomePage(){
+    document.getElementById("greeting").innerHTML = greeting;
+    document.getElementById("review").innerHTML = review;
+}
+
+function load(){
+    if (name){
+        alert("Welcome Back " + name + "!");
+        document.getElementById("user_name").value = name;
+        loadHomePage();
+    }
+}
 
 function greetUser(){
-    let name = document.getElementById("user_name").value;
+    name = document.getElementById("user_name").value;
+    document.cookie = "username=" + name;
+    console.log(document.cookie);
     if (name){
-        let greeting = "Hello, " + name + " Welcome to the movie review forum! Please enter a coment about the movie!"
-        document.getElementById("greeting").innerHTML = greeting;
-        document.getElementById("review").innerHTML = review;
+        loadHomePage();
     } else {
         alert("Please enter a valid name!");
     }
@@ -21,6 +38,51 @@ function getComments (){
         let obj = JSON.parse(comments);
         alert(obj.key);
     } catch {
-        alert("doesn't work");
+        search(comments);
     }
 }
+
+function search(input){
+    let words = input.split(/[. , ]/);
+    let entries;
+    for (let i in words){
+        if (words[i] != ""){
+            entries = dictionary.entries;
+            for (let j in entries) {
+                for(let k in entries[j].key){
+                    if (words[i] === entries[j].key[k]){
+                        document.getElementById("comments").value = "Values have been replaced";
+                    }
+                }
+            }
+        }
+    }
+}
+
+function replace(words, index, keyIndex, arrayIndex){
+    
+}
+
+var dictionary = {
+    "dictionary_name": "default",
+    "entries":
+        [{
+            "key": ["stupid", "dumb", "idiot", "unintelligent", "simple-minded", "braindead", "foolish", "unthoughtful"],
+            "answer": ["educated", "informed", "schooled", "skilled", "trained", "logical", "rational", "reasonable", "valid"]
+        }, {
+            "key": ["unattractive", "hideous", "ugly"],
+            "answer": ["attractive", "beauteous", "beautiful", "lovely", "pretty", "ravishing"]
+        }, {
+            "key": ["ambiguous", "cryptic", "dark", "nebulous", "obscure", "unintelligible"],
+            "answer": ["obvious", "plain", "unambiguous", "understandable", "unequivocal"]
+        }, {
+            "key": ["incapable", "incompetent", "inept", "unable", "unfit", "unqualified", "weak", "artless"],
+            "answer": ["accomplished", "fit", "adept", "complete", "consummate"]
+        }, {
+            "key": ["emotionless", "heartless", "unkind", "mean", "selfish", "evil"],
+            "answer": ["benevolent", "benignant", "gentle", "kind", "clement"]
+        }, {
+            "key": ["idle"],
+            "answer": ["Can you reply something?", "You have been idle for more than 30 seconds", "Whats the matter with you? Submit something"]
+        }]
+};
