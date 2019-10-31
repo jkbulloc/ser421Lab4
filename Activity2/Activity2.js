@@ -1,9 +1,9 @@
 "use strict";
-const review = "Joker review: Joker isn’t just an awesome comic book movie, it’s an awesome movie, period. " +
+const review = "<p>Joker review:</p> <p>Joker isn’t just an awesome comic book movie, it’s an awesome movie, period. " +
 "It offers no easy answers to the unsettling questions it raises about a cruel society in decline. " + 
 "Joaquin Phoenix’s fully committed performance and Todd Phillips’ masterful albeit loose reinvention of the DC source "+ 
 "material make Joker a film that should leave comic book fans and non-fans alike disturbed and moved in all the right ways." +
-" - IGN.com";
+" - IGN.com</p>";
 
 var name;
 let greeting = "Hello, " + name + " Welcome to the movie review forum! Please enter a coment about the movie!";
@@ -23,8 +23,6 @@ function load(){
 
 function greetUser(){
     name = document.getElementById("user_name").value;
-    // document.cookie = "username=" + name;
-    // console.log(document.cookie);
     if (name){
         loadHomePage();
     } else {
@@ -39,7 +37,6 @@ function getComments (){
         alert(obj.key);
     } catch {
         let words = comments.split(/\s|\.|,\s/)
-        console.log(words);
         display(words);
     }
 }
