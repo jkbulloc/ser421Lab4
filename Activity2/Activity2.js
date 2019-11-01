@@ -81,7 +81,6 @@ function replace(keyIndex){
 
 /*============================ Handle User JSON Object =============================*/
 function update(obj){
-    console.log("updating...");
     let keys = [];
     Object.keys(obj).forEach(function(key){
         keys.push(key);
@@ -91,9 +90,6 @@ function update(obj){
         for (let i in keys){
             let check = search(keys[i]);
             if(check){
-                let temp = keys[i];
-                console.log("i never get here because check = 0!");
-                console.log(obj[keys[i]]);
                 addWord (check, obj[keys[i]]);
             } else {
                 alert(keys[i] + " does not exist in the dictionary!!");
