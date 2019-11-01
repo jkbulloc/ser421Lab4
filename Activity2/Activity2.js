@@ -6,6 +6,19 @@ const review = "<p>Joker review:</p> <p>Joker isn’t just an awesome comic book
 " - IGN.com</p>";
 
 var name;
+var timer;
+function timer(){
+    if (timer){
+        clearTimer();
+    }
+    timer = window.setTimeout(function(){
+        alert("You have been idle for more than 30 seconds? Click somethin ya turkey!");
+    }, 5000);
+}
+
+function clearTimer(){
+    window.clearTimeout(timer);
+}
 
 function loadHomePage(){
     let greeting = "Hello, " + name + " Welcome to the movie review forum! Please enter a coment about the movie!";
@@ -19,6 +32,7 @@ function load(){
         document.getElementById("user_name").value = name;
         loadHomePage();
     }
+    timer();
 }
 
 function greetUser(){
