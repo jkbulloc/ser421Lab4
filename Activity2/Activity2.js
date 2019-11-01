@@ -6,9 +6,9 @@ const review = "<p>Joker review:</p> <p>Joker isn’t just an awesome comic book
 " - IGN.com</p>";
 
 var name;
-let greeting = "Hello, " + name + " Welcome to the movie review forum! Please enter a coment about the movie!";
 
 function loadHomePage(){
+    let greeting = "Hello, " + name + " Welcome to the movie review forum! Please enter a coment about the movie!";
     document.getElementById("greeting").innerHTML = greeting;
     document.getElementById("review").innerHTML = review;
 }
@@ -31,16 +31,18 @@ function greetUser(){
 }
 
 function getComments (){
+    console.log("get comments");
     let comments = document.getElementById("comments").value;
     try {
         let obj = JSON.parse(comments);
-        alert(obj.key);
+        update(obj);
     } catch {
-        let words = comments.split(/\s|\.|,\s/)
+        let words = comments.split(/\s|\.|,\s/);
         display(words);
     }
 }
 
+/*======================== Handle User Comments ==========================*/
 function display(words) {
     let newSentence = "";
     let check;
@@ -71,9 +73,57 @@ function search(word){
 }
 
 function replace(keyIndex){
-    let randomNum = Math.floor(Math.random() * Math.floor(dictionary.entries[keyIndex].answer.length - 1));
+    let randomNum = Math.floor(Math.random() * Math.floor(dictionary.entries[keyIndex].answer.length));
     return dictionary.entries[keyIndex].answer[randomNum];
 }
+
+/*===============================================================================*/
+
+/*============================ Handle User JSON Object =============================*/
+function update(obj){
+    console.log("updating...");
+    let keys = [];
+    Object.keys(obj).forEach(function(key){
+        keys.push(key);
+    });
+    //console.log(keys);
+    if(keys.length > 0){
+        for (let i in keys){
+            let check = search(keys[i]);
+            if(check){
+                let temp = keys[i];
+                console.log("i never get here because check = 0!");
+                console.log(obj[keys[i]]);
+                addWord (check, obj[keys[i]]);
+            } else {
+                alert(keys[i] + " does not exist in the dictionary!!");
+            }
+        }
+    }
+}
+
+function addWord(keyIndex, value){
+    console.log("made it to add function");
+    dictionary.entries[keyIndex].answer.push(value);
+    alert(value + " has been added and the dictionary is now smarter!");
+}
+/*==================================================================================*/
+
+/*
+{
+    "key":"value"
+}
+{
+    "stupid":"intelligent"
+}
+{
+    "stupid":"intelligent",
+    "idiot":"smart person"
+}
+
+stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid
+
+*/
 
 var dictionary = {
     "dictionary_name": "default",
