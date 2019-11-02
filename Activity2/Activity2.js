@@ -7,18 +7,6 @@ const review = "<p>Joker review:</p> <p>Joker isn’t just an awesome comic book
 
 var name;
 var timer;
-function timer(){
-    if (timer){
-        clearTimer();
-    }
-    timer = window.setTimeout(function(){
-        alert("You have been idle for more than 30 seconds? Click somethin ya turkey!");
-    }, 5000);
-}
-
-function clearTimer(){
-    window.clearTimeout(timer);
-}
 
 function loadHomePage(){
     let greeting = "Hello, " + name + " Welcome to the movie review forum! Please enter a coment about the movie!";
@@ -32,20 +20,28 @@ function load(){
         document.getElementById("user_name").value = name;
         loadHomePage();
     }
-    timer();
+    timer = window.setInterval(function(){
+        let randomNum = Math.floor(Math.random() * Math.floor(dictionary.entries[dictionary.entries.length - 1].answer.length));
+        alert(dictionary.entries[dictionary.entries.length - 1].answer[randomNum]);
+    }, 30000);
 }
 
 function greetUser(){
+    clearInterval(timer);
     name = document.getElementById("user_name").value;
     if (name){
         loadHomePage();
     } else {
         alert("Please enter a valid name!");
     }
+    timer = window.setInterval(function(){
+        let randomNum = Math.floor(Math.random() * Math.floor(dictionary.entries[dictionary.entries.length - 1].answer.length));
+        alert(dictionary.entries[dictionary.entries.length - 1].answer[randomNum]);
+    }, 30000);
 }
 
 function getComments (){
-    console.log("get comments");
+    clearInterval(timer);
     let comments = document.getElementById("comments").value;
     try {
         let obj = JSON.parse(comments);
@@ -54,6 +50,10 @@ function getComments (){
         let words = comments.split(/\s|\.|,\s/);
         display(words);
     }
+    timer = window.setInterval(function(){
+        let randomNum = Math.floor(Math.random() * Math.floor(dictionary.entries[dictionary.entries.length - 1].answer.length));
+        alert(dictionary.entries[dictionary.entries.length - 1].answer[randomNum]);
+    }, 30000);
 }
 
 /*======================== Handle User Comments ==========================*/
@@ -113,9 +113,15 @@ function update(obj){
 }
 
 function addWord(keyIndex, value){
-    console.log("made it to add function");
-    dictionary.entries[keyIndex].answer.push(value);
-    alert(value + " has been added and the dictionary is now smarter!");
+    if (typeof value === 'string'){
+        dictionary.entries[keyIndex].answer.push(value);
+        alert(value + " has been added and the dictionary is now smarter!");
+    } else if(typeof value === 'object'){
+        for(let i in value){
+            dictionary.entries[keyIndex].answer.push(value[i]);
+        }
+        alert("Values have been added and the dictionary is now smarter!");
+    }
 }
 /*==================================================================================*/
 

@@ -7,13 +7,14 @@
     <title>Activity2</title>
     <script src="Activity2.js"
         type="text/javascript">
+        button.onclick
     </script>
 </head>
 <body onload="load()">
     <div id="input_name">
         Please input your name:
         <input type="text" name="user_name" id="user_name">
-        <input type="submit" value="login" onclick="greetUser()" onclick="timer()">
+        <input type="button" value="login" onclick="greetUser()">
         <p id="greeting"></p>
     </div>
     <div id="review">
@@ -21,7 +22,7 @@
     <div id="input_comments">
         Please input your comments:
         <textarea name="user_comments" id="comments" cols="50" rows="5"></textarea>
-        <input type="submit" value="submit comment" onclick="getComments()" onclick="timer()">
+        <input type="button" value="submit comment" onclick="getComments()">
     </div>
 </body>
 </html>
