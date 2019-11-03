@@ -73,11 +73,17 @@ function getComments (){
 function display(words) {
     let newSentence = "";
     let check;
+    let usedWords = [];
     for (let i in words){
         if (words[i]!= ""){
             check = search(words[i])
             if(check){
-                newSentence += replace(check) + " ";
+                let replacement = replace(check);
+                while (usedWords.indexOf(replacement) > -1 && usedWords.length < dictionary.entries[check].answer.length){
+                    replacement = replace(check);
+                }
+                usedWords.push(replacement);
+                newSentence += replacement + " ";
             } else {
                 newSentence += words[i] + " ";
             }
@@ -176,23 +182,6 @@ function searchHistory(){
 
 /*==================================================================================*/
 
-
-/*
-{
-    "key":"value"
-}
-{
-    "stupid":"intelligent"
-}
-{
-    "stupid":"intelligent",
-    "idiot":"smart person"
-}
-
-stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid
-
-*/
-
 var dictionary = {
     "dictionary_name": "default",
     "entries":
@@ -216,3 +205,5 @@ var dictionary = {
             "answer": ["Can you reply something?", "You have been idle for more than 30 seconds", "Whats the matter with you? Submit something"]
         }]
 };
+
+// stupid stupid stupid stupid stupid stupid stupid stupid stupid stupid
