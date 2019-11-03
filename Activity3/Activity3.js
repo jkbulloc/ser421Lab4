@@ -5,9 +5,8 @@ const review = "<p>Joker review:</p> <p>Joker isn’t just an awesome comic book
 "material make Joker a film that should leave comic book fans and non-fans alike disturbed and moved in all the right ways." +
 " - IGN.com</p>";
 
-//var name;
 var timer;
-
+var count;
 function loadHomePage(){
     let greeting = "Hello, " + localStorage.name + " Welcome to the movie review forum! Please enter a coment about the movie!";
     document.getElementById("greeting").innerHTML = greeting;
@@ -15,10 +14,15 @@ function loadHomePage(){
 }
 
 function load(){
+    count = 0;
+    sessionStorage.history = [];
     if (localStorage.name){
         alert("Welcome Back " + localStorage.name + "!");
-        document.getElementById("user_name").value = name;
+        document.getElementById("user_name").value = localStorage.name;
         loadHomePage();
+        if (localStorage.input){
+            document.getElementById("comments").value = localStorage.input;
+        }
     }
     timer = window.setInterval(function(){
         let randomNum = Math.floor(Math.random() * Math.floor(dictionary.entries[dictionary.entries.length - 1].answer.length));
@@ -43,14 +47,22 @@ function greetUser(){
 function getComments (){
     clearInterval(timer);
     let comments = document.getElementById("comments").value;
-    if (comments === "/clear"){
-        clear();
+    if (typeof comments == "object"){
+        let obj = JSON.parse(comments);
+        update(obj);
     } else {
-        try {
-            let obj = JSON.parse(comments);
-            update(obj);
-        } catch {
-            let words = comments.split(/\s|\.|,\s/);
+        let words = comments.split(/\s|\.|,\s/);
+        let action = words[0];
+        if (action === "/clear") {
+            clear();
+        } else if (action === "/search") {
+            search(words[1]);
+        } else if(action === "/history"){
+            alert("History!");
+            searchHistory();
+        } else if (action === "/count") {
+            showCount();
+        } else {
             display(words);
         }
     }
@@ -84,6 +96,8 @@ function search(word){
         for(let keyWord in entries[keyIndex].key){
             if (word === entries[keyIndex].key[keyWord]){
                 ret = keyIndex;
+                count ++;
+                sessionStorage.setItem("count", count);
             }
         }
     }
@@ -103,7 +117,6 @@ function update(obj){
     Object.keys(obj).forEach(function(key){
         keys.push(key);
     });
-    //console.log(keys);
     if(keys.length > 0){
         for (let i in keys){
             let check = search(keys[i]);
@@ -126,7 +139,7 @@ function addWord(keyIndex, value){
         }
         alert("Values have been added and the dictionary is now smarter!");
     }
-}f
+}
 /*==================================================================================*/
 
 /*=========================== Activity3 Functionality ============================= */
@@ -135,8 +148,40 @@ function clear(){
     localStorage.clear();
     sessionStorage.clear();
     location.reload();
+    sessionStorage.count = 0;
 }
 
+function saveState(){
+    localStorage.input = document.getElementById("comments").value;
+}
+
+function search(word){
+    sessionStorage.setItem(word, word);
+    console.log(sessionStorage[word]);
+    for(let i in dictionary.entries){
+        for(let j in dictionary.entries[i].key){
+            if(word === dictionary.entries[i].key[j]){
+                document.getElementById("comments").value = dictionary.entries[i].answer;
+            }
+        }
+    }
+}
+
+function searchHistory(){
+    let values = "<ol>";
+    for (let i in dictionary.entries){
+        for (let j in dictionary.entries[i].key){
+            if (sessionStorage[dictionary.entries[i].key[j]]){
+                values += "<li>" + dictionary.entries[i].key[j] + "</li>";
+            }
+        }
+    }
+    document.getElementById("display").innerHTML = values + "</ol>";
+}
+
+function showCount(){
+    document.getElementById("comments").value = sessionStorage.count;
+}
 
 /*==================================================================================*/
 

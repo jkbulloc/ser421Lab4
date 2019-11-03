@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Activity2</title>
+    <title>Activity3</title>
     <script src="Activity3.js"
         type="text/javascript">
         button.onclick
     </script>
 </head>
-<body onload="load()">
+<body onload="load()" onunload="saveState()">
     <div id="input_name">
         Please input your name:
         <input type="text" name="user_name" id="user_name">
@@ -23,6 +23,9 @@
         Please input your comments:
         <textarea name="user_comments" id="comments" cols="50" rows="5"></textarea>
         <input type="button" value="submit comment" onclick="getComments()">
+    </div>
+    <div id="display">
+        
     </div>
 </body>
 </html>
