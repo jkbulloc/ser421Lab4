@@ -56,12 +56,12 @@ function getComments (){
         if (action === "/clear") {
             clear();
         } else if (action === "/search") {
-            search(words[1]);
+            searchAction(words[1]);
         } else if(action === "/history"){
             alert("History!");
             searchHistory();
         } else if (action === "/count") {
-            showCount();
+            document.getElementById("comments").value = "The number of rude words count is " + sessionStorage.count;
         } else {
             display(words);
         }
@@ -155,12 +155,12 @@ function saveState(){
     localStorage.input = document.getElementById("comments").value;
 }
 
-function search(word){
+function searchAction(word){
     sessionStorage.setItem(word, word);
-    console.log(sessionStorage[word]);
     for(let i in dictionary.entries){
         for(let j in dictionary.entries[i].key){
             if(word === dictionary.entries[i].key[j]){
+                sessionStorage.count ++;
                 document.getElementById("comments").value = dictionary.entries[i].answer;
             }
         }
@@ -177,10 +177,6 @@ function searchHistory(){
         }
     }
     document.getElementById("display").innerHTML = values + "</ol>";
-}
-
-function showCount(){
-    document.getElementById("comments").value = sessionStorage.count;
 }
 
 /*==================================================================================*/
