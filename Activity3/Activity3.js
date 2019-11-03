@@ -6,7 +6,6 @@ const review = "<p>Joker review:</p> <p>Joker isn’t just an awesome comic book
 " - IGN.com</p>";
 
 var timer;
-var count;
 function loadHomePage(){
     let greeting = "Hello, " + localStorage.name + " Welcome to the movie review forum! Please enter a coment about the movie!";
     document.getElementById("greeting").innerHTML = greeting;
@@ -14,8 +13,7 @@ function loadHomePage(){
 }
 
 function load(){
-    count = 0;
-    sessionStorage.history = [];
+    sessionStorage.setItem("count", 0);
     if (localStorage.name){
         alert("Welcome Back " + localStorage.name + "!");
         document.getElementById("user_name").value = localStorage.name;
@@ -58,7 +56,6 @@ function getComments (){
         } else if (action === "/search") {
             searchAction(words[1]);
         } else if(action === "/history"){
-            alert("History!");
             searchHistory();
         } else if (action === "/count") {
             document.getElementById("comments").value = "The number of rude words count is " + sessionStorage.count;
@@ -95,9 +92,8 @@ function search(word){
     for (let keyIndex in entries) {
         for(let keyWord in entries[keyIndex].key){
             if (word === entries[keyIndex].key[keyWord]){
+                sessionStorage.count ++;
                 ret = keyIndex;
-                count ++;
-                sessionStorage.setItem("count", count);
             }
         }
     }
@@ -160,7 +156,6 @@ function searchAction(word){
     for(let i in dictionary.entries){
         for(let j in dictionary.entries[i].key){
             if(word === dictionary.entries[i].key[j]){
-                sessionStorage.count ++;
                 document.getElementById("comments").value = dictionary.entries[i].answer;
             }
         }
