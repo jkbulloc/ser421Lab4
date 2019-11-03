@@ -43,7 +43,7 @@ function greetUser(){
 function getComments (){
     clearInterval(timer);
     let comments = document.getElementById("comments").value;
-    if (typeof comments === "/clear"){
+    if (comments === "/clear"){
         clear();
     } else {
         try {
