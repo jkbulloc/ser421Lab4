@@ -6,6 +6,8 @@ const review = "<p>Joker review:</p> <p>Joker isn’t just an awesome comic book
 " - IGN.com</p>";
 
 var timer;
+var inputs = [];
+var outputs = [];
 function loadHomePage(){
     let greeting = "Hello, " + localStorage.name + " Welcome to the movie review forum! Please enter a coment about the movie!";
     document.getElementById("greeting").innerHTML = greeting;
@@ -13,8 +15,6 @@ function loadHomePage(){
 }
 
 function load(){
-    sessionStorage.setItem("input", []);
-    sessionStorage.setItem("output", []);
     sessionStorage.setItem("count", 0);
     if (localStorage.name){
         alert("Welcome Back " + localStorage.name + "!");
@@ -51,7 +51,6 @@ function getComments (){
         let obj = JSON.parse(comments);
         update(obj);
     } catch {
-        sessionStorage.output.push(comments);
         let words = comments.split(/\s|\.|,\s/);
         let action = words[0];
         if (action === "/clear") {
@@ -65,6 +64,8 @@ function getComments (){
         } else if(action === "/list") {
             listComments();
         } else {
+            inputs.push(comments);
+            console.log(inputs);
             display(words);
         }
     }
@@ -94,7 +95,8 @@ function display(words) {
             }
         }
     }
-    sessionStorage.output.push(newSentence);
+    outputs.push(newSentence);
+    console.log(outputs);
     document.getElementById("comments").value = newSentence;
 }
 
@@ -153,6 +155,8 @@ function addWord(keyIndex, value){
 /*=========================== Activity3 Functionality ============================= */
 
 function clear(){
+    inputs = [];
+    outputs = [];
     localStorage.clear();
     sessionStorage.clear();
     location.reload();
@@ -187,10 +191,19 @@ function searchHistory(){
 }
 
 function listComments(){
-    let values = "<p>Actual Reviews</p><ol>";
-    for(let i in sessionStorage.input){
-        values += "<li>" + sessionStorage.input[i] + "</li>";
-    }
+    let values;
+    if (inputs && outputs){
+        values = "<p>Actual Reviews</p><ol>";
+        for(let i in inputs){
+            values += "<li>" + inputs[i] + "</li>";
+        }
+        values += "</ol><p>Censored Reviews</p><ol>";
+        for (let i in outputs){
+            values += "<li>" + outputs[i] + "</li>";
+        }
+    } else {
+        values = "<p>Nothing to Display!</p>"
+    } 
     document.getElementById("display").innerHTML = values + "</ol>";
 }
 /*==================================================================================*/
