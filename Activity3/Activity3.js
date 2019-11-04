@@ -13,6 +13,8 @@ function loadHomePage(){
 }
 
 function load(){
+    sessionStorage.setItem("input", []);
+    sessionStorage.setItem("output", []);
     sessionStorage.setItem("count", 0);
     if (localStorage.name){
         alert("Welcome Back " + localStorage.name + "!");
@@ -45,20 +47,23 @@ function greetUser(){
 function getComments (){
     clearInterval(timer);
     let comments = document.getElementById("comments").value;
-    if (typeof comments == "object"){
+    try{
         let obj = JSON.parse(comments);
         update(obj);
-    } else {
+    } catch {
+        sessionStorage.output.push(comments);
         let words = comments.split(/\s|\.|,\s/);
         let action = words[0];
         if (action === "/clear") {
             clear();
         } else if (action === "/search") {
             searchAction(words[1]);
-        } else if(action === "/history"){
+        } else if(action === "/history") {
             searchHistory();
         } else if (action === "/count") {
             document.getElementById("comments").value = "The number of rude words count is " + sessionStorage.count;
+        } else if(action === "/list") {
+            listComments();
         } else {
             display(words);
         }
@@ -89,6 +94,7 @@ function display(words) {
             }
         }
     }
+    sessionStorage.output.push(newSentence);
     document.getElementById("comments").value = newSentence;
 }
 
@@ -180,6 +186,13 @@ function searchHistory(){
     document.getElementById("display").innerHTML = values + "</ol>";
 }
 
+function listComments(){
+    let values = "<p>Actual Reviews</p><ol>";
+    for(let i in sessionStorage.input){
+        values += "<li>" + sessionStorage.input[i] + "</li>";
+    }
+    document.getElementById("display").innerHTML = values + "</ol>";
+}
 /*==================================================================================*/
 
 var dictionary = {
