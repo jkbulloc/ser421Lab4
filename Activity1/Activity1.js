@@ -1,5 +1,3 @@
-"use strict";
-
 //1 Output to the console the <ol> element encompassing the results of the search
 console.log(document.getElementById("b_results"));
 
