@@ -38,7 +38,7 @@ Activity3:
     
     TO TEST ACTIVITY3:
         Open the Activity3.html file in your browser, enter your name into the first text box and click "login". From there, a review for the movie "Joker" from ign.com will render and you can add comments
-        which will censor based on your word choice. This program 
+        which will censor based on your word choice. This program also contains the added functionality for /search <string>, /list, /history, /count and /clear.
 
 Activity4:
     This folder contains 2 files:
